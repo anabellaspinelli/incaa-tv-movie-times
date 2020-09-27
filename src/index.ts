@@ -3,41 +3,57 @@ const fetch = require('node-fetch')
 const MOVIE_TITLE = 'Diablo viejo'
 const MOVIE_ID = '4346'
 
-async function getAirTimes() { 
-    const date = new Date()
-    const year = date.getFullYear()
-    const month = date.getMonth()
-    const fullMonth = month > 9 ? `${month}` : `0${month}`
-    const numberOfDaysInMonth = new Date(year, month, 0).getDate()
+type Movie = {
+    anio: string,
+    genero: string,
+    hora_inicio: string,
+    incaatv_id: string,
+    movie_link: string,
+    thumbnail: string,
+    title: string,
+    day?: number
+}
 
-    const daysOfTheMonth = getIntegersInRange(1, numberOfDaysInMonth)
+type Cuesheet = Movie[]
 
-    console.log({year, fullMonth})
+async function getAirTimes() {
+    const date: Date = new Date()
+    const year: number = date.getFullYear()
+    const month: number = date.getMonth()
 
-    const cuesheets = await Promise.all(
-        daysOfTheMonth.map(day => fetchCuesheet(year, fullMonth, day))
+    const fullMonth: String = month > 9 ? `${month}` : `0${month}`
+
+    const numberOfDaysInMonth: number = new Date(year, month, 0).getDate()
+    const daysOfTheMonth: number[] = getIntegersInRange(1, numberOfDaysInMonth)
+
+    /**
+     * A "cuesheet" is the list of movies that will play on any given day
+     * and the time they start, as defined by cine.ar's API.
+     */
+    const cuesheets: Cuesheet[] = await Promise.all(
+        daysOfTheMonth.map(day => fetchCuesheet(year.toString(), fullMonth, day.toString()))
     )
 
     const movieAirTimes = cuesheets.reduce((cuesheetAccum, cuesheet, index) => {
-        const matchingMovies = cuesheet.reduce((movieAccum, movie) => {
+        const matchingMovies = cuesheet.reduce((movieAccum: Movie[], movie: Movie) => {
             if (movie.title === MOVIE_TITLE || movie.incaatv_id === MOVIE_ID) {
-                movieAccum.push({...movie, day: index+1})
+                movieAccum.push({ ...movie, day: index + 1 })
             }
 
             return movieAccum
         }, [])
 
         if (matchingMovies.length > 0) {
-            cuesheetAccum = [...cuesheetAccum, ...matchingMovies]      
+            cuesheetAccum = [...cuesheetAccum, ...matchingMovies]
         }
 
         return cuesheetAccum
-    },[])
+    }, [])
 
-    console.log(movieAirTimes)
+    console.log({ movieAirTimes })
 }
 
-function getIntegersInRange(min, max) {
+function getIntegersInRange(min: number, max: number): number[] {
     const numbers = []
     for (let i = min; i <= max; i++) {
         numbers.push(i);
@@ -46,7 +62,8 @@ function getIntegersInRange(min, max) {
     return numbers
 }
 
-async function fetchCuesheet(year, month, day) {
+async function fetchCuesheet(year: String, month: String, day: String): Promise<Cuesheet> {
+    console.info(`Fetching ${year} ${month} ${day}`)
     let response
 
     try {
@@ -54,9 +71,13 @@ async function fetchCuesheet(year, month, day) {
             `http://tv.cine.ar/wp-content/plugins/ff_gsheet_importer/ff_incaatv_ajax_api.php?op=cuesheet-list&date=${year}${month}${day}`
         )
     } catch (err) {
+        console.error(`❌ Failed to fetch ${year} ${month} ${day}`)
         console.error(err)
     }
-        
+
+
+
+    console.info(`✅ Received ${year} ${month} ${day}`)
     return response.json()
 }
 

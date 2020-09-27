@@ -55,7 +55,7 @@ async function getAirTimes() {
     console.log({ movieAirTimes })
 }
 
-async function fetchCuesheet(year: String, month: String, day: String): Promise<Cuesheet | undefined> {
+async function fetchCuesheet(year: String, month: String, day: String): Promise<Cuesheet> {
     console.info(`Fetching ${year} ${month} ${day}`)
     try {
         const response: Response = await fetch(
@@ -67,6 +67,7 @@ async function fetchCuesheet(year: String, month: String, day: String): Promise<
     } catch (err) {
         console.error(`❌ Failed to fetch ${year} ${month} ${day}`)
         console.error(err)
+        return err
     }
 }
 

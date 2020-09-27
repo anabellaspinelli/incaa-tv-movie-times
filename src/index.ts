@@ -19,7 +19,7 @@ type Cuesheet = Movie[]
 async function getAirTimes() {
     const date: Date = new Date()
     const year: number = date.getFullYear()
-    const month: number = date.getMonth()
+    const month: number = date.getMonth() + 1 // these months are 0-indexed, the API is not. This way we query for the current month.
 
     const fullMonth: String = month > 9 ? `${month}` : `0${month}`
 

@@ -1,4 +1,5 @@
-import { findMovieTimeInCuesheet, getIntegersInRange } from './utils'
+import { Cuesheet } from './types'
+import { findMovieTimesInCuesheet, getIntegersInRange } from './utils'
 
 describe('getIntegersInRange', () => {
     it('returns the integers in the given range', () => {
@@ -33,7 +34,7 @@ describe('findMovieInCuesheet', () => {
         ] as Cuesheet
 
         expect(
-            findMovieTimeInCuesheet(cuesheet, {
+            findMovieTimesInCuesheet(cuesheet, {
                 incaatv_id: '123',
                 title: 'one two three',
             }),
@@ -46,7 +47,7 @@ describe('findMovieInCuesheet', () => {
         ] as Cuesheet
 
         expect(
-            findMovieTimeInCuesheet(cuesheet, {
+            findMovieTimesInCuesheet(cuesheet, {
                 incaatv_id: '1234',
                 title: 'one two three',
             }),
@@ -59,7 +60,7 @@ describe('findMovieInCuesheet', () => {
         ] as Cuesheet
 
         expect(
-            findMovieTimeInCuesheet(cuesheet, {
+            findMovieTimesInCuesheet(cuesheet, {
                 incaatv_id: '123',
                 title: 'one two three four',
             }),
@@ -73,7 +74,7 @@ describe('findMovieInCuesheet', () => {
         ] as Cuesheet
 
         expect(
-            findMovieTimeInCuesheet(cuesheet, {
+            findMovieTimesInCuesheet(cuesheet, {
                 incaatv_id: '123',
                 title: 'one two three four',
             }),

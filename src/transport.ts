@@ -1,10 +1,11 @@
-import fetch, { Response } from 'node-fetch'
+import fetch from 'node-fetch'
+import { Cuesheet } from './types'
 
 export async function fetchCuesheet(date: string): Promise<Cuesheet> {
     console.info(`Fetching ${date}`)
 
     try {
-        const response: Response = await fetch(
+        const response = await fetch(
             `http://tv.cine.ar/wp-content/plugins/ff_gsheet_importer/ff_incaatv_ajax_api.php?op=cuesheet-list&date=${date}`,
         )
 

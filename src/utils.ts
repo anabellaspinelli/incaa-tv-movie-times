@@ -1,3 +1,5 @@
+import { Cuesheet, Movie, MovieTime } from './types'
+
 export function getIntegersInRange(min: number, max: number): number[] {
     const numbers = []
     for (let i = min; i <= max; i++) {
@@ -10,7 +12,7 @@ export function getIntegersInRange(min: number, max: number): number[] {
 export function getFormattedDatesOfTheMonth(date: Date): string[] {
     const year: number = date.getFullYear()
     const month: number = date.getMonth() + 1 // these months are 0-indexed, the API is not. This way we query for the current month.
-    const formattedMonth: String = month > 9 ? `${month}` : `0${month}`
+    const formattedMonth: string = month > 9 ? `${month}` : `0${month}`
 
     const numberOfDaysInMonth: number = new Date(year, month, 0).getDate()
     const daysOfTheMonth: string[] = getIntegersInRange(
@@ -21,7 +23,7 @@ export function getFormattedDatesOfTheMonth(date: Date): string[] {
     return daysOfTheMonth.map((day) => `${year}${formattedMonth}${day}`)
 }
 
-export function findMovieTimeInCuesheet(cuesheet: Cuesheet, movie: Movie) {
+export function findMovieTimesInCuesheet(cuesheet: Cuesheet, movie: Movie) {
     return cuesheet.reduce(
         (movieTimeAccum: MovieTime[], movieTime: MovieTime) => {
             if (

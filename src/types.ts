@@ -1,4 +1,4 @@
-type MovieTime = {
+export type MovieTime = {
     anio: string
     genero: string
     hora_inicio: string
@@ -9,9 +9,9 @@ type MovieTime = {
     day?: number
 }
 
-type Cuesheet = MovieTime[]
+export type Cuesheet = MovieTime[]
 
-type Movie = {
+export type Movie = {
     incaatv_id: string
     title: string
     anio?: string

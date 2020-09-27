@@ -30,11 +30,11 @@ async function getAirTimes() {
      * A "cuesheet" is the list of movies that will play on any given day
      * and the time they start, as defined by cine.ar's API.
      */
-    const cuesheets: Cuesheet[] = await Promise.all(
+    const cuesheetsOfTheMonth: Cuesheet[] = await Promise.all(
         daysOfTheMonth.map(day => fetchCuesheet(year.toString(), fullMonth, day.toString()))
     )
 
-    const movieAirTimes = cuesheets.reduce((cuesheetAccum, cuesheet, index) => {
+    const movieAirTimes = cuesheetsOfTheMonth.reduce((cuesheetAccum, cuesheet, index) => {
         const matchingMovies = cuesheet.reduce((movieAccum: Movie[], movie: Movie) => {
             if (movie.title === MOVIE_TITLE || movie.incaatv_id === MOVIE_ID) {
                 movieAccum.push({ ...movie, day: index + 1 })

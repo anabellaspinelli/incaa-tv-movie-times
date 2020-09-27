@@ -1,4 +1,6 @@
-const fetch = require('node-fetch')
+import fetch, { Response } from 'node-fetch'
+
+import { getIntegersInRange } from './utils'
 
 const MOVIE_TITLE = 'Diablo viejo'
 const MOVIE_ID = '4346'
@@ -53,32 +55,19 @@ async function getAirTimes() {
     console.log({ movieAirTimes })
 }
 
-function getIntegersInRange(min: number, max: number): number[] {
-    const numbers = []
-    for (let i = min; i <= max; i++) {
-        numbers.push(i);
-    }
-
-    return numbers
-}
-
-async function fetchCuesheet(year: String, month: String, day: String): Promise<Cuesheet> {
+async function fetchCuesheet(year: String, month: String, day: String): Promise<Cuesheet | undefined> {
     console.info(`Fetching ${year} ${month} ${day}`)
-    let response
-
     try {
-        response = await fetch(
+        const response: Response = await fetch(
             `http://tv.cine.ar/wp-content/plugins/ff_gsheet_importer/ff_incaatv_ajax_api.php?op=cuesheet-list&date=${year}${month}${day}`
         )
+
+        console.info(`✅ Received ${year} ${month} ${day}`)
+        return response.json()
     } catch (err) {
         console.error(`❌ Failed to fetch ${year} ${month} ${day}`)
         console.error(err)
     }
-
-
-
-    console.info(`✅ Received ${year} ${month} ${day}`)
-    return response.json()
 }
 
 /////////////////////////////

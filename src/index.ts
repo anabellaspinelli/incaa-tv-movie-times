@@ -35,7 +35,8 @@ async function getAirTimes() {
         [],
     )
 
-    console.log({ movieAirTimes })
+    // console.log({ movieAirTimes })
+    return movieAirTimes
 }
 
 getAirTimes()

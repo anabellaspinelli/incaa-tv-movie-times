@@ -9,6 +9,8 @@ type MovieTime = {
     day?: number
 }
 
+type Cuesheet = MovieTime[]
+
 type Movie = {
     incaatv_id: string
     title: string
@@ -17,5 +19,3 @@ type Movie = {
     movie_link?: string
     thumbnail?: string
 }
-
-type Cuesheet = MovieTime[]

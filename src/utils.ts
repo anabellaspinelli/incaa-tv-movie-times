@@ -23,6 +23,25 @@ export function getFormattedDatesOfTheMonth(date: Date): string[] {
     return daysOfTheMonth.map((day) => `${year}${formattedMonth}${day}`)
 }
 
+export const getMonthName = (date: Date) => {
+    const monthNames = [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre',
+    ]
+
+    return monthNames[date.getMonth()]
+}
+
 export function findMovieTimesInCuesheet(cuesheet: Cuesheet, movie: Movie) {
     return cuesheet.reduce(
         (movieTimeAccum: MovieTime[], movieTime: MovieTime) => {
